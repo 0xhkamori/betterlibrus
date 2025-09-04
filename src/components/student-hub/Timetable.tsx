@@ -4,20 +4,12 @@ import { useState, useEffect } from 'react';
 import type { Lesson, Day } from '@/lib/types';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Calendar } from 'lucide-react';
-
-const days: { key: Day; name: string }[] = [
-  { key: 'MON', name: 'Mon' },
-  { key: 'TUE', name: 'Tue' },
-  { key: 'WED', name: 'Wed' },
-  { key: 'THU', name: 'Thu' },
-  { key: 'FRI', name: 'Fri' },
-];
+import { usePrivacy } from '@/contexts/PrivacyContext';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 function getInitialDay(): Day {
     const day = new Date().getDay();
-    const
-     daysOfWeek = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'] as const;
+    const daysOfWeek = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'] as const;
     const today = daysOfWeek[day];
     if (today === 'SAT' || today === 'SUN') return 'MON';
     return today as Day;
@@ -31,6 +23,16 @@ interface TimetableProps {
 
 export function Timetable({ lessons, onLessonClick, initialDay }: TimetableProps) {
   const [selectedDay, setSelectedDay] = useState<Day | null>(null);
+  const { anonymizeName } = usePrivacy();
+  const { t } = useLanguage();
+
+  const days: { key: Day; name: string }[] = [
+    { key: 'MON', name: t('timetable.monday') },
+    { key: 'TUE', name: t('timetable.tuesday') },
+    { key: 'WED', name: t('timetable.wednesday') },
+    { key: 'THU', name: t('timetable.thursday') },
+    { key: 'FRI', name: t('timetable.friday') },
+  ];
 
   useEffect(() => {
     setSelectedDay(initialDay || getInitialDay());
@@ -51,10 +53,6 @@ export function Timetable({ lessons, onLessonClick, initialDay }: TimetableProps
                     </Button>
                 ))}
                 </div>
-                 <Button variant="ghost" size="icon" className="flex-shrink-0">
-                    <Calendar className="h-5 w-5 text-muted-foreground" />
-                    <span className="sr-only">Open Calendar</span>
-                </Button>
             </div>
         </div>
       );
@@ -78,10 +76,6 @@ export function Timetable({ lessons, onLessonClick, initialDay }: TimetableProps
             </Button>
           ))}
         </div>
-        <Button variant="ghost" size="icon" className="flex-shrink-0">
-            <Calendar className="h-5 w-5 text-muted-foreground" />
-            <span className="sr-only">Open Calendar</span>
-        </Button>
       </div>
       <div className="px-4 md:px-0 space-y-3">
         {filteredLessons.length > 0 ? (
@@ -94,7 +88,7 @@ export function Timetable({ lessons, onLessonClick, initialDay }: TimetableProps
               <CardContent className="p-4 flex justify-between items-center">
                 <div>
                   <p className="font-bold">{lesson.subject}</p>
-                  <p className="text-sm text-muted-foreground">{`${lesson.teacher} · ${lesson.room}`}</p>
+                  <p className="text-sm text-muted-foreground">{`${anonymizeName(lesson.teacher)} · ${lesson.room}`}</p>
                 </div>
                 <div className="text-right">
                   <p className="text-sm font-medium">{lesson.time}</p>
@@ -105,7 +99,7 @@ export function Timetable({ lessons, onLessonClick, initialDay }: TimetableProps
         ) : (
             <Card className="bg-card/50">
                 <CardContent className="p-16 text-center text-muted-foreground">
-                    <p>No lessons scheduled for this day.</p>
+                    <p>{t('timetable.noLessons')}</p>
                 </CardContent>
             </Card>
         )}

@@ -10,6 +10,8 @@ import {
 } from '@/components/ui/sheet';
 import { Separator } from '@/components/ui/separator';
 import { ScrollArea } from '../ui/scroll-area';
+import { usePrivacy } from '@/contexts/PrivacyContext';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface DetailsSheetProps {
   item: DetailItem | null;
@@ -18,6 +20,8 @@ interface DetailsSheetProps {
 }
 
 function LessonDetails({ item }: { item: Lesson }) {
+  const { anonymizeName } = usePrivacy();
+  const { t } = useLanguage();
   return (
     <>
       <SheetHeader>
@@ -26,17 +30,17 @@ function LessonDetails({ item }: { item: Lesson }) {
       </SheetHeader>
       <div className="py-4 space-y-2">
         <div className="flex justify-between">
-          <span className="text-muted-foreground">Teacher</span>
-          <span>{item.teacher}</span>
+          <span className="text-muted-foreground">{t('details.teacher')}</span>
+          <span>{anonymizeName(item.teacher)}</span>
         </div>
         <Separator className="my-2" />
         <div className="flex justify-between">
-          <span className="text-muted-foreground">Room</span>
+          <span className="text-muted-foreground">{t('details.room')}</span>
           <span>{item.room}</span>
         </div>
         <Separator className="my-2" />
         <div className="flex justify-between">
-          <span className="text-muted-foreground">Day</span>
+          <span className="text-muted-foreground">{t('details.day')}</span>
           <span>{item.day}</span>
         </div>
       </div>
@@ -45,15 +49,16 @@ function LessonDetails({ item }: { item: Lesson }) {
 }
 
 function GradeDetails({ item }: { item: SubjectGrade }) {
+  const { t } = useLanguage();
   return (
     <>
       <SheetHeader>
         <SheetTitle>{item.subject}</SheetTitle>
-        <SheetDescription>Average: {item.average}%</SheetDescription>
+        <SheetDescription>{t('details.average')}: {item.average}%</SheetDescription>
       </SheetHeader>
       <Separator className="my-4" />
       <div className="flex-1 flex flex-col min-h-0">
-        <p className="font-medium mb-2">Grade History</p>
+        <p className="font-medium mb-2">{t('grades.gradeHistory')}</p>
         <ScrollArea className="flex-grow">
           <div className="space-y-3 pr-4">
             {item.grades.map((grade: Grade) => (
@@ -73,12 +78,14 @@ function GradeDetails({ item }: { item: SubjectGrade }) {
 }
 
 function AnnouncementDetails({ item }: { item: Announcement }) {
+  const { anonymizeName } = usePrivacy();
+  const { t } = useLanguage();
   return (
     <>
       <SheetHeader>
         <SheetTitle>{item.title}</SheetTitle>
         <SheetDescription>
-          By {item.author} on {item.date}
+          {t('details.by')} {anonymizeName(item.author)} {t('details.on')} {item.date}
         </SheetDescription>
       </SheetHeader>
       <Separator className="my-4" />

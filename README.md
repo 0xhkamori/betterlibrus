@@ -1,11 +1,10 @@
 # betterlibrus 📚
-
-> A modern, stylish client for Librus Synergia with a dark UI and smooth animations
-
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
 [![Next.js](https://img.shields.io/badge/Next.js-15.3.3-black)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5+-blue)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4.1-38B2AC)](https://tailwindcss.com/)
+
+> ⚠️ This project is still in development and has not been extensively tested due to limited access to real-world data. If you encounter any issues, please open an issue on GitHub.
 
 ### 🌟 **Features**
 - 📅 Timetables
@@ -27,7 +26,6 @@
 | **React / React DOM** | UI library | 18.3.1 |
 | **TypeScript** | Type Safety | ^5 |
 | **Tailwind CSS** | Styling | 3.4.1 |
-| **Firebase** | Auth / backend | 11.9.1 |
 | **librus-api** | Librus Synergia client | 2.1.0 |
 | **lucide-react** | Icons | 0.475.0 |
 | **recharts** | Charts | 2.15.1 |

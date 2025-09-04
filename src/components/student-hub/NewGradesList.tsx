@@ -2,6 +2,7 @@ import type { SubjectGrade } from '@/lib/types';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface NewGradesListProps {
   grades: SubjectGrade[];
@@ -9,12 +10,14 @@ interface NewGradesListProps {
 }
 
 export function NewGradesList({ grades, onGradeClick }: NewGradesListProps) {
+  const { t } = useLanguage();
     const recentGrades = grades.flatMap(sg => sg.grades.map(g => ({...g, subjectGrade: sg }))).slice(0, 5);
 
   return (
     <Card className="bg-card/50">
       <CardContent className="p-4">
-        <ScrollArea className="w-full whitespace-nowrap">
+        {recentGrades.length > 0 ? (
+          <ScrollArea className="w-full whitespace-nowrap">
             <div className="flex space-x-3">
             {recentGrades.map(grade => (
                 <Button 
@@ -28,7 +31,12 @@ export function NewGradesList({ grades, onGradeClick }: NewGradesListProps) {
             ))}
             </div>
             <ScrollBar orientation="horizontal" />
-        </ScrollArea>
+          </ScrollArea>
+        ) : (
+          <div className="text-center text-muted-foreground py-4">
+            <p>{t('home.noNewGrades')}</p>
+          </div>
+        )}
       </CardContent>
     </Card>
   );

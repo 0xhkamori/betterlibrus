@@ -15,6 +15,7 @@ export default async function handler(
     const announcements = await client.inbox.listAnnouncements();
     return res.status(200).json(announcements);
   } catch (error: any) {
+    console.error('🔥 Announcements API error');
     return res.status(500).json({ message: error.message || "An error occurred." });
   }
 }

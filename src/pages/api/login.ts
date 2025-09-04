@@ -50,7 +50,7 @@ export default async function handler(
 
     res.status(200).json({ success: true, user: accountInfo });
   } catch (error) {
-    console.error(error);
+    console.error('🔥 Login failed');
     if (error instanceof Error) {
         // Explicitly check for authorization-related errors from librus-api
         if (error.message.toLowerCase().includes('authorization failed')) {

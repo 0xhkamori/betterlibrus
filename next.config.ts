@@ -1,6 +1,11 @@
 
 import type {NextConfig} from 'next';
 
+if (!process.env.__STARTUP_LOGGED) {
+  console.log('   ❄️  betterlibrus v0.1.0');
+  process.env.__STARTUP_LOGGED = 'true';
+}
+
 const nextConfig: NextConfig = {
   /* config options here */
   typescript: {

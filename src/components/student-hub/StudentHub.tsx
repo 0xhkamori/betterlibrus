@@ -14,7 +14,6 @@ import { GradesView } from '@/components/student-hub/views/GradesView';
 import { AbsencesView } from '@/components/student-hub/views/AbsencesView';
 import { ExamsView } from '@/components/student-hub/views/ExamsView';
 import { AnnouncementsView } from '@/components/student-hub/views/AnnouncementsView';
-import { ProfileView } from '@/components/student-hub/views/ProfileView';
 import { SettingsView } from '@/components/student-hub/views/SettingsView';
 
 
@@ -42,8 +41,6 @@ export function StudentHub() {
         return <ExamsView />;
       case 'Announcements':
         return <AnnouncementsView onOpenSheet={handleOpenSheet} />;
-      case 'Profile':
-        return <ProfileView />;
       case 'Settings':
         return <SettingsView />;
       default:

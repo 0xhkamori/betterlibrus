@@ -1,7 +1,11 @@
-import { User, Settings } from 'lucide-react';
+import { Settings } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import type { View } from '@/lib/types';
 import { cn } from '@/lib/utils';
+import { usePrivacy } from '@/contexts/PrivacyContext';
+import { useLanguage } from '@/contexts/LanguageContext';
+import { useState, useEffect } from 'react';
+import { getUser } from '@/lib/api';
 
 interface HeaderProps {
   activeView: View;
@@ -9,13 +13,33 @@ interface HeaderProps {
 }
 
 export function Header({ activeView, onNavigate }: HeaderProps) {
-  const studentFirstName = "Alex"; // Placeholder
+  const { anonymizeName } = usePrivacy();
+  const { t } = useLanguage();
+  const [userFirstName, setUserFirstName] = useState<string>(t('common.loading'));
+
+  useEffect(() => {
+    const loadUserData = async () => {
+      try {
+        const userData = await getUser();
+        if (userData.user?.fullName) {
+          // Extract first name from full name
+          const firstName = userData.user.fullName.split(' ')[0];
+          setUserFirstName(firstName);
+        }
+      } catch (error) {
+        console.error('Failed to load user data for header:', error);
+        // Keep default "Student" if loading fails
+      }
+    };
+
+    loadUserData();
+  }, []);
 
   const getTitle = () => {
-    if (['Profile', 'Settings'].includes(activeView)) {
-        return activeView;
+    if (['Settings'].includes(activeView)) {
+        return t(`nav.${activeView.toLowerCase()}`);
     }
-    return activeView === 'Home' ? studentFirstName : activeView;
+    return activeView === 'Home' ? anonymizeName(userFirstName) : t(`nav.${activeView.toLowerCase()}`);
   }
 
   return (
@@ -24,15 +48,6 @@ export function Header({ activeView, onNavigate }: HeaderProps) {
         {getTitle()}
       </h1>
       <div className="flex items-center gap-2">
-        <Button 
-            variant="ghost" 
-            size="icon" 
-            onClick={() => onNavigate('Profile')}
-            className={cn(activeView === 'Profile' && 'bg-accent text-accent-foreground')}
-        >
-          <User className="h-5 w-5" />
-          <span className="sr-only">Profile</span>
-        </Button>
         <Button 
             variant="ghost" 
             size="icon" 

@@ -1,4 +1,3 @@
-
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getAuthenticatedClient } from "@/lib/librus-client";
 import * as cheerio from 'cheerio';
@@ -13,27 +12,26 @@ async function getTimetable(client: Librus, from?: string, to?: string) {
 
     if (!from || !to) {
       const today = new Date();
+      const currentDay = today.getDay();
       const monday = new Date(today);
-      monday.setDate(today.getDate() - today.getDay() + 1);
+      const daysFromMonday = currentDay === 0 ? -6 : 1 - currentDay;
+      monday.setDate(today.getDate() + daysFromMonday);
       const sunday = new Date(monday);
       sunday.setDate(monday.getDate() + 6);
-      
       from = monday.toISOString().split('T')[0];
       to = sunday.toISOString().split('T')[0];
     }
-    
+
     let parser = ($, row) => {
       if ($(row).hasClass("line0")) {
         return null;
       }
       let hour = $(row).find("th").text().trim();
       let lessonCells = $(row).find("td").slice(1, -1);
-      
       let list = [];
       lessonCells.each((index, cell) => {
         let $cell = $(cell);
         let textDiv = $cell.find(".text");
-        
         if (textDiv.length > 0 && textDiv.text().trim()) {
           let subject = textDiv.find("b").text().trim();
           let teacherRoom = textDiv.html();
@@ -74,15 +72,22 @@ async function getTimetable(client: Librus, from?: string, to?: string) {
     };
 
     let tableMapper = (html) => {
+        if (!html || html.length < 100) {
+            return {};
+        }
+        
         const $ = cheerio.load(html);
         let table = {};
         let hours = [];
+        
         let rows = $("table.decorated.plan-lekcji tbody tr.line1");
         if (rows.length === 0) {
             rows = $("tr.line1");
         }
+        
         rows.each((index, row) => {
             let parsed = parser($, row);
+            
             if (parsed && parsed.hour) {
             hours.push(parsed.hour);
             parsed.list.forEach((lesson, dayIndex) => {
@@ -91,7 +96,6 @@ async function getTimetable(client: Librus, from?: string, to?: string) {
                 if (!table[dayKey]) {
                     table[dayKey] = [];
                 }
-                // We only add the lesson if it's not null
                 if(lesson) {
                     table[dayKey].push(lesson);
                 }
@@ -100,18 +104,34 @@ async function getTimetable(client: Librus, from?: string, to?: string) {
             }
         });
 
-        // Filter out empty arrays from days
         Object.keys(table).forEach(dayKey => {
             table[dayKey] = table[dayKey].filter(lesson => lesson !== null);
         });
-
+        
         return table;
     };
 
     let formData = new FormData()
     formData.append("tydzien", `${from}_${to}`)
-    // @ts-ignore
-    return client._request("post", "przegladaj_plan_lekcji", formData, 'text').then(tableMapper);
+    
+    try {
+        // @ts-ignore
+        const response = await client._request("post", "przegladaj_plan_lekcji", formData, 'text');
+        
+        let htmlContent;
+        if (typeof response === 'function' && response.html) {
+            htmlContent = response.html();
+        } else if (typeof response === 'string') {
+            htmlContent = response;
+        } else {
+            htmlContent = String(response);
+        }
+        
+        return tableMapper(htmlContent);
+    } catch (error) {
+        console.error('🔥 Timetable request failed');
+        throw error;
+    }
   }
 
 
@@ -124,9 +144,11 @@ export default async function handler(
     if (!client) {
       return res.status(401).json({ message: "Unauthorized" });
     }
+    
     const timetable = await getTimetable(client as Librus);
     return res.status(200).json(timetable);
   } catch (error: any) {
+    console.error('🔥 Timetable API error');
     return res.status(500).json({ message: error.message || "An error occurred." });
   }
 }

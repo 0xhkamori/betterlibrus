@@ -8,6 +8,8 @@ import { Card, CardContent } from '@/components/ui/card';
 import { NewGradesList } from '@/components/student-hub/NewGradesList';
 import { cn } from '@/lib/utils';
 import { Skeleton } from '@/components/ui/skeleton';
+import { usePrivacy } from '@/contexts/PrivacyContext';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 
 interface HomeViewProps {
@@ -22,16 +24,24 @@ function getDayOfWeek(date: Date): 'MON' | 'TUE' | 'WED' | 'THU' | 'FRI' {
     return today;
 }
 
-function getDayName(dayKey: Day): string {
-    const names = { MON: 'Monday', TUE: 'Tuesday', WED: 'Wednesday', THU: 'Thursday', FRI: 'Friday' };
-    return names[dayKey];
-}
-
 export function HomeView({ onOpenSheet }: HomeViewProps) {
     const [isLoading, setIsLoading] = useState(true);
     const [lessons, setLessons] = useState<Lesson[]>([]);
     const [grades, setGrades] = useState<SubjectGrade[]>([]);
     const [currentTime, setCurrentTime] = useState(new Date());
+    const { anonymizeName } = usePrivacy();
+    const { t } = useLanguage();
+
+    const getDayName = (dayKey: Day): string => {
+        const names = { 
+            MON: t('timetable.monday'), 
+            TUE: t('timetable.tuesday'), 
+            WED: t('timetable.wednesday'), 
+            THU: t('timetable.thursday'), 
+            FRI: t('timetable.friday') 
+        };
+        return names[dayKey];
+    };
 
     useEffect(() => {
         async function loadData() {
@@ -57,7 +67,7 @@ export function HomeView({ onOpenSheet }: HomeViewProps) {
     if (isLoading) {
         return (
              <div className="space-y-8">
-                <Section title="Next Lesson">
+                <Section title={t('home.nextLesson')}>
                     <div className="px-4 md:px-0">
                         <div className="p-4 flex justify-between items-center rounded-lg border bg-card">
                             <div className="space-y-2">
@@ -70,7 +80,7 @@ export function HomeView({ onOpenSheet }: HomeViewProps) {
                         </div>
                     </div>
                 </Section>
-                 <Section title="New Grades">
+                 <Section title={t('home.newGrades')}>
                     <div className="px-4 md:px-0">
                         <div className="p-4 rounded-lg border bg-card">
                             <div className="flex space-x-3">
@@ -124,7 +134,7 @@ export function HomeView({ onOpenSheet }: HomeViewProps) {
 
     return (
         <div className="space-y-8">
-            <Section title="Next Lesson">
+            <Section title={t('home.nextLesson')}>
                 <div className="px-4 md:px-0">
                 {nextLesson ? (
                      <Card
@@ -134,7 +144,7 @@ export function HomeView({ onOpenSheet }: HomeViewProps) {
                         <CardContent className="p-4 flex justify-between items-center">
                           <div>
                             <p className="font-bold">{nextLesson.subject}</p>
-                            <p className="text-sm text-muted-foreground">{`${nextLesson.teacher} · ${nextLesson.room}`}</p>
+                            <p className="text-sm text-muted-foreground">{`${anonymizeName(nextLesson.teacher)} · ${nextLesson.room}`}</p>
                           </div>
                           <div className="text-right">
                             <p className="text-sm font-medium">{nextLesson.time}</p>
@@ -151,7 +161,7 @@ export function HomeView({ onOpenSheet }: HomeViewProps) {
                 </div>
             </Section>
 
-            <Section title="New Grades">
+            <Section title={t('home.newGrades')}>
                  <div className="px-4 md:px-0">
                     <NewGradesList grades={grades} onGradeClick={(grade) => onOpenSheet(grade)} />
                 </div>
@@ -172,7 +182,7 @@ export function HomeView({ onOpenSheet }: HomeViewProps) {
                                 <CardContent className="p-4 flex justify-between items-center">
                                 <div>
                                     <p className="font-bold">{lesson.subject}</p>
-                                    <p className="text-sm text-muted-foreground">{`${lesson.teacher} · ${lesson.room}`}</p>
+                                    <p className="text-sm text-muted-foreground">{`${anonymizeName(lesson.teacher)} · ${lesson.room}`}</p>
                                 </div>
                                 <div className="text-right">
                                     <p className="text-sm font-medium">{lesson.time}</p>
@@ -183,7 +193,7 @@ export function HomeView({ onOpenSheet }: HomeViewProps) {
                     ) : (
                         <Card className="bg-card/50">
                             <CardContent className="p-16 text-center text-muted-foreground">
-                                <p>No lessons scheduled for this day.</p>
+                                <p>{t('home.noLessonsToday')}</p>
                             </CardContent>
                         </Card>
                     )}

@@ -15,6 +15,7 @@ export default async function handler(
     const grades = await client.info.getGrades();
     return res.status(200).json(grades);
   } catch (error: any) {
+    console.error('🔥 Grades API error');
     return res.status(500).json({ message: error.message || "An error occurred." });
   }
 }

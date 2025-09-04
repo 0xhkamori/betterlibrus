@@ -2,7 +2,7 @@ import type { LucideIcon } from 'lucide-react';
 
 export type Day = 'MON' | 'TUE' | 'WED' | 'THU' | 'FRI';
 
-export type View = 'Home' | 'Timetable' | 'Grades' | 'Absences' | 'Exams' | 'Announcements' | 'Profile' | 'Settings';
+export type View = 'Home' | 'Timetable' | 'Grades' | 'Absences' | 'Exams' | 'Announcements' | 'Settings';
 
 export interface Lesson {
   id: string;

@@ -3,6 +3,8 @@
 import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 import { AuthProvider } from '@/hooks/use-auth';
+import { PrivacyProvider } from '@/contexts/PrivacyContext';
+import { LanguageProvider } from '@/contexts/LanguageContext';
 
 export default function RootLayout({
   children,
@@ -22,8 +24,12 @@ export default function RootLayout({
       </head>
       <body className="font-sans antialiased bg-background text-foreground">
         <AuthProvider>
-          {children}
-          <Toaster />
+          <LanguageProvider>
+            <PrivacyProvider>
+              {children}
+              <Toaster />
+            </PrivacyProvider>
+          </LanguageProvider>
         </AuthProvider>
       </body>
     </html>
