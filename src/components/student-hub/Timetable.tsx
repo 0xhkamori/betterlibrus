@@ -27,11 +27,11 @@ export function Timetable({ lessons, onLessonClick, initialDay }: TimetableProps
   const { t } = useLanguage();
 
   const days: { key: Day; name: string }[] = [
-    { key: 'MON', name: t('timetable.monday') },
-    { key: 'TUE', name: t('timetable.tuesday') },
-    { key: 'WED', name: t('timetable.wednesday') },
-    { key: 'THU', name: t('timetable.thursday') },
-    { key: 'FRI', name: t('timetable.friday') },
+    { key: 'MON', name: t('timetable.mon') },
+    { key: 'TUE', name: t('timetable.tue') },
+    { key: 'WED', name: t('timetable.wed') },
+    { key: 'THU', name: t('timetable.thu') },
+    { key: 'FRI', name: t('timetable.fri') },
   ];
 
   useEffect(() => {

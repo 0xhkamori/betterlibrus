@@ -5,6 +5,7 @@ import { Toaster } from '@/components/ui/toaster';
 import { AuthProvider } from '@/hooks/use-auth';
 import { PrivacyProvider } from '@/contexts/PrivacyContext';
 import { LanguageProvider } from '@/contexts/LanguageContext';
+import { FontProvider } from '@/contexts/FontContext';
 
 export default function RootLayout({
   children,
@@ -17,7 +18,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Manrope:wght@400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800&family=Open+Sans:wght@300;400;500;600;700;800&family=Source+Serif+Pro:wght@400;600;700&display=swap"
           rel="stylesheet"
         />
         <title>BetterLibrus</title>
@@ -30,10 +31,12 @@ export default function RootLayout({
       <body className="font-sans antialiased bg-background text-foreground">
         <AuthProvider>
           <LanguageProvider>
-            <PrivacyProvider>
-              {children}
-              <Toaster />
-            </PrivacyProvider>
+            <FontProvider>
+              <PrivacyProvider>
+                {children}
+                <Toaster />
+              </PrivacyProvider>
+            </FontProvider>
           </LanguageProvider>
         </AuthProvider>
       </body>

@@ -50,6 +50,9 @@ const translations: Record<Language, Record<string, string>> = {
     'settings.appearanceSettings': 'Appearance Settings',
     'settings.language': 'Language',
     'settings.languageDesc': 'Choose your preferred language',
+    'settings.font': 'Font',
+    'settings.fontDesc': 'Choose your preferred font family',
+    'settings.fontPreview': 'The quick brown fox jumps over the lazy dog',
     
     // Common
     'common.loading': 'Loading...',
@@ -152,6 +155,9 @@ const translations: Record<Language, Record<string, string>> = {
     'settings.appearanceSettings': 'Ustawienia wyglądu',
     'settings.language': 'Język',
     'settings.languageDesc': 'Wybierz preferowany język',
+    'settings.font': 'Czcionka',
+    'settings.fontDesc': 'Wybierz preferowaną rodzinę czcionek',
+    'settings.fontPreview': 'Zażółć gęślą jaźń',
     
     // Common
     'common.loading': 'Ładowanie...',
@@ -254,6 +260,9 @@ const translations: Record<Language, Record<string, string>> = {
     'settings.appearanceSettings': 'Настройки внешнего вида',
     'settings.language': 'Язык',
     'settings.languageDesc': 'Выберите предпочитаемый язык',
+    'settings.font': 'Шрифт',
+    'settings.fontDesc': 'Выберите предпочитаемое семейство шрифтов',
+    'settings.fontPreview': 'Съешь же ещё этих мягких французских булок',
     
     // Common
     'common.loading': 'Загрузка...',
@@ -356,6 +365,9 @@ const translations: Record<Language, Record<string, string>> = {
     'settings.appearanceSettings': 'Налаштування зовнішнього вигляду',
     'settings.language': 'Мова',
     'settings.languageDesc': 'Оберіть бажану мову',
+    'settings.font': 'Шрифт',
+    'settings.fontDesc': 'Оберіть бажане сімейство шрифтів',
+    'settings.fontPreview': 'Зїж же ще цих мягких французьких булок та випий чаю',
     
     // Common
     'common.loading': 'Завантаження...',

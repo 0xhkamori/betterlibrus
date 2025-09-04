@@ -11,6 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { getUser } from '@/lib/api';
 import { usePrivacy } from '@/contexts/PrivacyContext';
 import { useLanguage, type Language } from '@/contexts/LanguageContext';
+import { useFont } from '@/contexts/FontContext';
 import { User, Mail, Phone, MapPin, GraduationCap, Calendar, Settings, Palette, Globe, LogOut } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
@@ -32,6 +33,7 @@ export function SettingsView() {
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
   const { privacyMode, setPrivacyMode, anonymizeName, anonymizeEmail } = usePrivacy();
   const { language, setLanguage, t } = useLanguage();
+  const { selectedFont, setSelectedFont, fontOptions } = useFont();
 
   const handleLogout = async () => {
     try {
@@ -280,6 +282,37 @@ export function SettingsView() {
                     checked={privacyMode}
                     onCheckedChange={setPrivacyMode}
                   />
+                </div>
+                
+                <div className="space-y-4">
+                  <div className="space-y-1">
+                    <p className="font-medium">{t('settings.font')}</p>
+                    <p className="text-sm text-muted-foreground">
+                      {t('settings.fontDesc')}
+                    </p>
+                  </div>
+                  
+                  <Select 
+                    value={selectedFont.id} 
+                    onValueChange={(value) => {
+                      const font = fontOptions.find(f => f.id === value);
+                      if (font) setSelectedFont(font);
+                    }}
+                  >
+                    <SelectTrigger className="w-full py-3">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {fontOptions.map((font) => (
+                        <SelectItem key={font.id} value={font.id} className="py-3">
+                          <div className="flex flex-col items-start">
+                            <span style={{ fontFamily: font.family }}>{font.name}</span>
+                            <span className="text-xs text-muted-foreground">{font.description}</span>
+                          </div>
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </div>
               </div>
             </SheetContent>
