@@ -16,6 +16,7 @@
 ## 🖥️ Live Demo
 
 **🔗 [Visit betterlibrus.vercel.app](https://relibrus.vercel.app/)**
+**🌲 To install on Android, [visit this link](https://relibrus.vercel.app/) and select "Install" when prompted**
 
 
 ## 🛠️ Tech Stack (selected)
