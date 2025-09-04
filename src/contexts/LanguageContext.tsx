@@ -53,6 +53,8 @@ const translations: Record<Language, Record<string, string>> = {
     'settings.font': 'Font',
     'settings.fontDesc': 'Choose your preferred font family',
     'settings.fontPreview': 'The quick brown fox jumps over the lazy dog',
+    'settings.roundness': 'Rounded Design',
+    'settings.roundnessDesc': 'Make all elements more rounded and circular',
     
     // Common
     'common.loading': 'Loading...',
@@ -158,6 +160,8 @@ const translations: Record<Language, Record<string, string>> = {
     'settings.font': 'Czcionka',
     'settings.fontDesc': 'Wybierz preferowaną rodzinę czcionek',
     'settings.fontPreview': 'Zażółć gęślą jaźń',
+    'settings.roundness': 'Zaokrąglony Design',
+    'settings.roundnessDesc': 'Uczyń wszystkie elementy bardziej zaokrąglonymi',
     
     // Common
     'common.loading': 'Ładowanie...',
@@ -263,6 +267,8 @@ const translations: Record<Language, Record<string, string>> = {
     'settings.font': 'Шрифт',
     'settings.fontDesc': 'Выберите предпочитаемое семейство шрифтов',
     'settings.fontPreview': 'Съешь же ещё этих мягких французских булок',
+    'settings.roundness': 'Округлый дизайн',
+    'settings.roundnessDesc': 'Сделать все элементы более округлыми и круглыми',
     
     // Common
     'common.loading': 'Загрузка...',
@@ -368,6 +374,8 @@ const translations: Record<Language, Record<string, string>> = {
     'settings.font': 'Шрифт',
     'settings.fontDesc': 'Оберіть бажане сімейство шрифтів',
     'settings.fontPreview': 'Зїж же ще цих мягких французьких булок та випий чаю',
+    'settings.roundness': 'Округлий дизайн',
+    'settings.roundnessDesc': 'Зробити всі елементи більш округлими та круглими',
     
     // Common
     'common.loading': 'Завантаження...',

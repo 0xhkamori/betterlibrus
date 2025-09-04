@@ -26,6 +26,27 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+/* Rounded mode styles */
+.rounded-mode .rounded-md {
+  border-radius: calc(var(--radius) + 0.25rem);
+}
+
+.rounded-mode .rounded-lg {
+  border-radius: calc(var(--radius) + 0.5rem);
+}
+
+.rounded-mode .rounded-xl {
+  border-radius: calc(var(--radius) + 0.75rem);
+}
+
+.rounded-mode .rounded {
+  border-radius: var(--radius);
+}
+
+.rounded-mode .rounded-full {
+  border-radius: 9999px;
+}
+
 @layer base {
   :root {
     --background: 240 10% 3.9%;

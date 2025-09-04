@@ -6,6 +6,7 @@ import { AuthProvider } from '@/hooks/use-auth';
 import { PrivacyProvider } from '@/contexts/PrivacyContext';
 import { LanguageProvider } from '@/contexts/LanguageContext';
 import { FontProvider } from '@/contexts/FontContext';
+import { RoundnessProvider } from '@/contexts/RoundnessContext';
 
 export default function RootLayout({
   children,
@@ -32,10 +33,12 @@ export default function RootLayout({
         <AuthProvider>
           <LanguageProvider>
             <FontProvider>
-              <PrivacyProvider>
-                {children}
-                <Toaster />
-              </PrivacyProvider>
+              <RoundnessProvider>
+                <PrivacyProvider>
+                  {children}
+                  <Toaster />
+                </PrivacyProvider>
+              </RoundnessProvider>
             </FontProvider>
           </LanguageProvider>
         </AuthProvider>

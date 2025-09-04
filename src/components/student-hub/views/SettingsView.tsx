@@ -12,6 +12,7 @@ import { getUser } from '@/lib/api';
 import { usePrivacy } from '@/contexts/PrivacyContext';
 import { useLanguage, type Language } from '@/contexts/LanguageContext';
 import { useFont } from '@/contexts/FontContext';
+import { useRoundness } from '@/contexts/RoundnessContext';
 import { User, Mail, Phone, MapPin, GraduationCap, Calendar, Settings, Palette, Globe, LogOut } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
@@ -34,6 +35,7 @@ export function SettingsView() {
   const { privacyMode, setPrivacyMode, anonymizeName, anonymizeEmail } = usePrivacy();
   const { language, setLanguage, t } = useLanguage();
   const { selectedFont, setSelectedFont, fontOptions } = useFont();
+  const { roundedMode, setRoundedMode } = useRoundness();
 
   const handleLogout = async () => {
     try {
@@ -281,6 +283,19 @@ export function SettingsView() {
                   <Switch
                     checked={privacyMode}
                     onCheckedChange={setPrivacyMode}
+                  />
+                </div>
+                
+                <div className="flex items-center justify-between">
+                  <div className="space-y-1">
+                    <p className="font-medium">{t('settings.roundness')}</p>
+                    <p className="text-sm text-muted-foreground">
+                      {t('settings.roundnessDesc')}
+                    </p>
+                  </div>
+                  <Switch
+                    checked={roundedMode}
+                    onCheckedChange={setRoundedMode}
                   />
                 </div>
                 
