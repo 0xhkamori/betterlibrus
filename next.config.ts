@@ -1,6 +1,15 @@
 
 import type {NextConfig} from 'next';
 
+// Only use PWA in production or when explicitly building
+const withPWA = require('next-pwa')({
+  dest: 'public',
+  disable: process.env.NODE_ENV === 'development',
+  register: true,
+  skipWaiting: true,
+  buildExcludes: [/middleware-manifest\.json$/],
+});
+
 if (!process.env.__STARTUP_LOGGED) {
   console.log('   ❄️  betterlibrus v0.1.0');
   process.env.__STARTUP_LOGGED = 'true';
@@ -33,4 +42,5 @@ const nextConfig: NextConfig = {
   serverExternalPackages: ['librus-api'],
 };
 
-export default nextConfig;
+// Only apply PWA wrapper in production builds to avoid Turbopack conflicts
+export default process.env.NODE_ENV === 'development' ? nextConfig : withPWA(nextConfig);
