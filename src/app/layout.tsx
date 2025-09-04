@@ -24,7 +24,7 @@ export default function RootLayout({
         <meta name="description" content="A better interface for Librus school management system" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="manifest" href="/manifest.json" />
-        <meta name="theme-color" content="#1a1a1a" />
+        <meta name="theme-color" content="#121212" />
         <link rel="apple-touch-icon" href="/icon-192.png" />
       </head>
       <body className="font-sans antialiased bg-background text-foreground">
